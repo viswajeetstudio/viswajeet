@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viswajeet Studio</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              yellow: '#F3B429',
+              gold: '#D97706',
+              amber: '#F59E0B',
+              warm: '#F7BC36',
+              lightYellow: '#FEF9EE',
+              dark: '#0B0F19',
+              charcoal: '#151C28',
+              muted: '#64748B',
+              cream: '#FAFAF7',
+              border: '#E8E8E2'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          boxShadow: {
+            'luxury': '0 25px 50px -12px rgba(243, 180, 41, 0.35)',
+            'card-elevated': '0 25px 60px -15px rgba(11, 15, 25, 0.08)',
+            'glow-amber': '0 0 35px rgba(243, 180, 41, 0.45)',
+            'nav-floating': '0 20px 40px -15px rgba(11, 15, 25, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.8) inset',
+            'pill-active': '0 10px 25px -5px rgba(11, 15, 25, 0.3), 0 0 20px rgba(243, 180, 41, 0.25)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::selection {
+      background-color: #F3B429;
+      color: #0B0F19;
+    }
+
+    /* Custom Smooth Interactive Cursor */
+    .custom-cursor {
+      pointer-events: none;
+      transition: transform 0.15s ease-out, opacity 0.2s ease;
+      z-index: 9999;
+    }
+
+    /* Seamless Marquee Track */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marquee 32s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+
+    /* Dynamic Glassmorphism */
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(232, 232, 226, 0.6);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    /* 3D Dynamic Card Tilt */
+    .perspective-card {
+      transform-style: preserve-3d;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    }
+
+    /* Smooth Slider Transition */
+    .slider-track {
+      transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Nav Item Hover Kinetics */
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 9999px;
+      transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, rgba(243, 180, 41, 0.18), rgba(243, 180, 41, 0.05));
+      opacity: 0;
+      transform: scale(0.85);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: -1;
+    }
+    .nav-link:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .nav-link:active {
+      transform: scale(0.94);
+    }
+    .nav-link .nav-indicator {
+      width: 4px;
+      height: 4px;
+      border-radius: 9999px;
+      background-color: #F3B429;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link:hover .nav-indicator,
+    .nav-link.active .nav-indicator {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Filter Tabs Sliding Glider Effect */
+    .filter-tab-bar {
+      position: relative;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(14px);
+      border: 1px solid #E8E8E2;
+      border-radius: 9999px;
+      padding: 0.375rem;
+      box-shadow: 0 4px 20px -2px rgba(11, 15, 25, 0.04);
+    }
+    .filter-glider {
+      position: absolute;
+      top: 0.375rem;
+      bottom: 0.375rem;
+      border-radius: 9999px;
+      background: #0B0F19;
+      box-shadow: 0 8px 20px -4px rgba(11, 15, 25, 0.35), 0 0 0 1px rgba(243, 180, 41, 0.3) inset;
+      transition: transform 0.4s cubic-bezier(0.2, 0.85, 0.25, 1.15), width 0.35s cubic-bezier(0.2, 0.85, 0.25, 1.15);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .filter-tab-btn {
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .filter-tab-btn:hover {
+      transform: translateY(-1px);
+    }
+    .filter-tab-btn:active {
+      transform: scale(0.96) translateY(0);
+    }
+    .filter-tab-btn .badge-count {
+      transition: all 0.3s ease;
+    }
+    .filter-tab-btn.is-active .badge-count {
+      background: #F3B429;
+      color: #0B0F19;
+    }
+
+    /* Float Animation */
+    @keyframes subtleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-subtle-float {
+      animation: subtleFloat 6s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-brand-cream text-brand-dark font-sans antialiased overflow-x-hidden relative selection:bg-brand-yellow selection:text-brand-dark">
+
+  <!-- Interactive Custom Cursor Dot & Aura -->
+  <div id="cursor-dot" class="custom-cursor fixed top-0 left-0 w-2.5 h-2.5 bg-brand-yellow rounded-full -translate-x-1/2 -translate-y-1/2 hidden md:block"></div>
+  <div id="cursor-outline" class="custom-cursor fixed top-0 left-0 w-9 h-9 border border-brand-yellow/80 rounded-full -translate-x-1/2 -translate-y-1/2 hidden md:block transition-all duration-300"></div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none bg-brand-dark text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-brand-yellow/40">
+    <span class="w-2.5 h-2.5 rounded-full bg-brand-yellow animate-ping"></span>
+    <span id="toast-message" class="text-xs sm:text-sm font-semibold tracking-wide">Copied to clipboard</span>
+  </div>
+
+  <!-- Back to Top Floating Button -->
+  <button id="back-to-top" class="fixed bottom-6 left-6 z-40 w-11 h-11 rounded-full bg-white text-brand-dark border border-brand-border shadow-lg flex items-center justify-center opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:bg-brand-yellow hover:scale-110 active:scale-95 hover:shadow-luxury" aria-label="Back to Top">
+    <i data-lucide="arrow-up" class="w-4 h-4"></i>
+  </button>
+
+  <header class="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 py-4 transition-all duration-300" id="site-header">
+    <div class="max-w-7xl mx-auto flex items-center justify-between glass-nav px-5 sm:px-7 py-3 rounded-full">
+      
+      <!-- Brand Logo with micro-interaction -->
+      <a href="#hero" class="flex items-center gap-3 group transition-transform duration-300 active:scale-95">
+        <span class="w-10 h-10 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center font-serif text-xl font-bold shadow-sm group-hover:rotate-12 group-hover:scale-105 transition-all duration-300">
+          V
+        </span>
+        <div class="flex flex-col">
+          <span class="font-serif font-bold text-lg tracking-tight text-brand-dark group-hover:text-brand-gold transition-colors">VISWAJEET STUDIO</span>
+          <span class="text-[9px] uppercase font-bold tracking-widest text-brand-muted -mt-0.5">Creative Art Direction</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links with Kinetic Hover & Active Dot Indicator -->
+      <nav class="hidden lg:flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-dark/80" id="desktop-nav">
+        <a href="#hero" class="nav-link text-brand-dark hover:text-brand-dark transition-all">
+          <span>Home</span>
+          <span class="nav-indicator"></span>
+        </a>
+        <a href="#philosophy" class="nav-link text-brand-dark hover:text-brand-dark transition-all">
+          <span>Philosophy &amp; Vision</span>
+          <span class="nav-indicator"></span>
+        </a>
+        <a href="#portfolio" class="nav-link text-brand-dark hover:text-brand-dark transition-all">
+          <span>Curated Portfolio</span>
+          <span class="nav-indicator"></span>
+        </a>
+        <a href="#showcase" class="nav-link text-brand-dark hover:text-brand-dark transition-all">
+          <span>Featured Showcase</span>
+          <span class="nav-indicator"></span>
+        </a>
+        <a href="#contact" class="nav-link text-brand-dark hover:text-brand-dark transition-all">
+          <span>Contact</span>
+          <span class="nav-indicator"></span>
+        </a>
+      </nav>
+
+      <!-- Desktop Quick CTAs -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="https://www.instagram.com/viswajeet.studio" target="_blank" rel="noopener noreferrer" 
+           class="p-2.5 text-brand-dark hover:text-brand-gold hover:scale-110 active:scale-90 transition-all duration-300 rounded-full bg-amber-50/80 border border-brand-yellow/30 hover:border-brand-yellow hover:shadow-sm" title="Instagram @viswajeet.studio">
+          <i data-lucide="instagram" class="w-4 h-4 text-brand-gold"></i>
+        </a>
+        <a href="#contact" class="group relative inline-flex items-center gap-2 bg-brand-dark text-white px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-brand-yellow hover:text-brand-dark transition-all duration-300 shadow-sm hover:shadow-luxury hover:-translate-y-0.5 active:translate-y-0 active:scale-95">
+          <span>Start a Project</span>
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-yellow group-hover:text-brand-dark transition-colors"></i>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button id="mobile-toggle" class="lg:hidden p-2.5 text-brand-dark rounded-full hover:bg-black/5 active:scale-90 transition-all focus:outline-none" aria-label="Toggle Navigation">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="lg:hidden hidden mt-3 mx-2 bg-white/95 backdrop-blur-xl rounded-3xl p-6 border border-brand-border shadow-2xl flex flex-col gap-3 transition-all">
+      <a href="#hero" class="mobile-link text-sm font-bold uppercase tracking-wider py-2.5 px-3 rounded-xl hover:bg-amber-50 hover:text-brand-gold transition-colors flex items-center justify-between">
+        <span>Home</span>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-brand-muted"></i>
+      </a>
+      <a href="#philosophy" class="mobile-link text-sm font-bold uppercase tracking-wider py-2.5 px-3 rounded-xl hover:bg-amber-50 hover:text-brand-gold transition-colors flex items-center justify-between">
+        <span>Philosophy &amp; Vision</span>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-brand-muted"></i>
+      </a>
+      <a href="#portfolio" class="mobile-link text-sm font-bold uppercase tracking-wider py-2.5 px-3 rounded-xl hover:bg-amber-50 hover:text-brand-gold transition-colors flex items-center justify-between">
+        <span>Curated Portfolio</span>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-brand-muted"></i>
+      </a>
+      <a href="#showcase" class="mobile-link text-sm font-bold uppercase tracking-wider py-2.5 px-3 rounded-xl hover:bg-amber-50 hover:text-brand-gold transition-colors flex items-center justify-between">
+        <span>Featured Showcase</span>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-brand-muted"></i>
+      </a>
+      <a href="#contact" class="mobile-link text-sm font-bold uppercase tracking-wider py-2.5 px-3 rounded-xl hover:bg-amber-50 hover:text-brand-gold transition-colors flex items-center justify-between">
+        <span>Contact</span>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-brand-muted"></i>
+      </a>
+      <div class="pt-4 mt-2 flex items-center justify-between text-xs text-brand-muted border-t border-gray-100">
+        <span class="font-medium">viswajeet.studio@gmail.com</span>
+        <a href="https://www.instagram.com/viswajeet.studio" target="_blank" class="p-2 text-brand-dark bg-brand-yellow/30 hover:bg-brand-yellow rounded-full transition-colors">
+          <i data-lucide="instagram" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="relative min-h-[92vh] sm:min-h-screen pt-24 sm:pt-28 flex items-center overflow-hidden bg-brand-cream">
+      
+      <!-- Split Organic Curved Canvas (Matching Reference Visual) -->
+      <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute -right-20 sm:-right-12 top-0 w-full sm:w-[62%] h-full bg-[#F3B429] rounded-bl-[160px] md:rounded-bl-[320px] transition-all duration-700 ease-out">
+          <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#0B0F19_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
+          <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-white/20 rounded-full blur-[90px]"></div>
+        </div>
+      </div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 w-full py-12 md:py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          <!-- Left Column: Editorial Headline & Copy -->
+          <div class="lg:col-span-7 flex flex-col items-start space-y-6 max-w-2xl">
+            
+            <!-- Category Badge -->
+            <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/95 border border-brand-yellow/60 shadow-sm backdrop-blur-md">
+              <span class="w-2 h-2 rounded-full bg-brand-amber animate-ping"></span>
+              <span class="text-xs font-bold uppercase tracking-widest text-brand-gold">VISWAJEET STUDIO • CREATIVE DIRECTOR &amp; DESIGNER</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-[5.4rem] font-bold text-brand-dark tracking-tight leading-[1.05]">
+              Hello, my name <br class="hidden sm:inline" />
+              is <span class="relative inline-block text-brand-dark underline decoration-brand-yellow decoration-[7px] underline-offset-8">Viswajeet</span>
+            </h1>
+
+            <!-- Narrative Paragraph -->
+            <p class="text-base sm:text-lg md:text-xl text-brand-muted font-normal leading-relaxed max-w-xl">
+              Creative Director and Visual Stylist behind high-impact global advertisements, collectible cinematic posters, and responsive luxury web design experiences engineered to turn brands into cultural icons.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap items-center gap-4 pt-4 w-full sm:w-auto">
+              <a href="#portfolio" class="px-8 py-4 rounded-full bg-brand-yellow hover:bg-[#E5A419] text-brand-dark font-extrabold text-sm sm:text-base tracking-wide transition-all duration-300 transform hover:-translate-y-1 hover:shadow-luxury flex items-center justify-center gap-2.5 active:scale-95">
+                <span>Explore Works</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+
+              <a href="https://www.instagram.com/viswajeet.studio" target="_blank" rel="noopener noreferrer" 
+                 class="px-8 py-4 rounded-full bg-white hover:bg-gray-50 text-brand-dark border-2 border-brand-dark font-extrabold text-sm sm:text-base tracking-wide transition-all duration-300 transform hover:-translate-y-1 hover:shadow-card-elevated flex items-center justify-center gap-2.5 active:scale-95">
+                <i data-lucide="instagram" class="w-4 h-4 text-brand-gold"></i>
+                <span>Instagram Profile</span>
+              </a>
+
+              <button onclick="copyEmailToClipboard()" class="p-4 rounded-full bg-white border border-brand-border text-brand-muted hover:text-brand-dark hover:border-brand-yellow hover:scale-110 active:scale-95 transition-all shadow-sm" title="Copy Studio Email: viswajeet.studio@gmail.com">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </button>
+            </div>
+
+            <!-- Quantitative Metrics -->
+            <div class="pt-6 grid grid-cols-3 gap-6 sm:gap-10 border-t border-brand-border/70 w-full mt-4">
+              <div>
+                <div class="font-serif text-3xl sm:text-4xl font-bold text-brand-dark">120+</div>
+                <div class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold mt-1">Campaigns Directed</div>
+              </div>
+              <div>
+                <div class="font-serif text-3xl sm:text-4xl font-bold text-brand-dark">45+</div>
+                <div class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold mt-1">Collectible Posters</div>
+              </div>
+              <div>
+                <div class="font-serif text-3xl sm:text-4xl font-bold text-brand-dark">100%</div>
+                <div class="text-[11px] text-brand-muted uppercase tracking-wider font-semibold mt-1">Bespoke Design</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Viswajeet's Cropped Photo Frame -->
+          <div class="lg:col-span-5 relative flex items-center justify-center">
+            
+            <div class="w-72 h-72 sm:w-96 sm:h-96 bg-brand-yellow/40 rounded-full absolute filter blur-3xl -z-10 animate-pulse"></div>
+
+            <div class="relative w-full max-w-sm sm:max-w-md aspect-[3.8/5] rounded-[42px] overflow-hidden shadow-2xl border-4 border-white group bg-[#F3B429] perspective-card">
+              <img 
+                src="file_00000000a4bc820a84093f4d11f9aee9.png" 
+                alt="Viswajeet Studio Founder &amp; Creative Director" 
+                class="w-full h-full object-cover object-[center_12%] group-hover:scale-105 transition-transform duration-700 ease-out"
+                loading="eager"
+              />
+              
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/55 via-transparent to-transparent opacity-80 pointer-events-none"></div>
+              
+              <div class="absolute bottom-5 left-5 right-5 p-4 glass-card rounded-2xl flex items-center justify-between shadow-lg">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-brand-yellow flex items-center justify-center text-brand-dark font-serif font-bold text-sm shadow-sm">
+                    ✦
+                  </div>
+                  <div>
+                    <h2 class="text-xs font-bold text-brand-dark">Viswajeet</h2>
+                    <p class="text-[10px] text-brand-muted font-medium">Creative Director &amp; Visual Stylist</p>
+                  </div>
+                </div>
+                <span class="text-[11px] font-bold text-brand-gold bg-amber-50 border border-brand-yellow/40 px-3 py-1 rounded-full">Available</span>
+              </div>
+            </div>
+
+            <!-- Floating Badges -->
+            <div class="absolute -top-4 -left-4 sm:left-0 bg-white/95 px-4 py-2.5 rounded-2xl shadow-xl border border-brand-border flex items-center gap-3 backdrop-blur-md transform -rotate-3 hover:rotate-0 transition-transform">
+              <div class="p-2 rounded-xl bg-amber-50 text-brand-gold">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+              </div>
+              <div class="text-left">
+                <span class="text-[10px] uppercase font-bold text-brand-muted tracking-wider block">Signature Discipline</span>
+                <span class="text-xs font-extrabold text-brand-dark">Modern Luxury Visuals</span>
+              </div>
+            </div>
+
+            <div class="absolute -bottom-6 -right-2 sm:right-4 bg-brand-dark text-white px-5 py-3 rounded-2xl shadow-2xl border border-brand-yellow/40 flex items-center gap-3 transform rotate-2 hover:rotate-0 transition-transform">
+              <div class="w-2.5 h-2.5 rounded-full bg-brand-yellow animate-ping"></div>
+              <div class="text-left">
+                <span class="text-[10px] uppercase tracking-widest text-brand-yellow font-bold block">100% Bespoke</span>
+                <span class="text-xs font-semibold text-white/90">Advertisements &amp; Posters</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 bg-brand-dark text-white overflow-hidden border-y border-brand-yellow/20">
+      <div class="animate-marquee whitespace-nowrap flex items-center gap-12 font-serif text-lg sm:text-xl tracking-wider uppercase font-semibold">
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> CREATIVE ART DIRECTION</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> HIGH-CONVERTING ADVERTISEMENTS</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> EDITORIAL &amp; CINEMATIC POSTERS</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> BESPOKE WEB UI/UX EXPERIENCES</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> VISWAJEET STUDIO</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> BRAND ARCHITECTURE</span>
+        <!-- Continuous loop duplicate -->
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> CREATIVE ART DIRECTION</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> HIGH-CONVERTING ADVERTISEMENTS</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> EDITORIAL &amp; CINEMATIC POSTERS</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> BESPOKE WEB UI/UX EXPERIENCES</span>
+        <span class="flex items-center gap-3"><span class="text-brand-yellow text-sm">✦</span> VISWAJEET STUDIO</span>
+      </div>
+    </section>
+
+    <section id="philosophy" class="py-24 sm:py-32 px-6 sm:px-12 max-w-7xl mx-auto bg-brand-cream relative">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <div class="lg:col-span-5 relative">
+          <div class="relative mx-auto max-w-md">
+            <div class="w-full aspect-[3.6/4.6] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-[#0B0F19]">
+              <img 
+                src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80" 
+                alt="Philosophy Aesthetics" 
+                class="w-full h-full object-cover grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+              />
+            </div>
+            <div class="absolute -bottom-8 -left-4 sm:-left-6 bg-brand-yellow p-6 sm:p-7 rounded-3xl shadow-luxury max-w-xs text-brand-dark border-2 border-white">
+              <i data-lucide="quote" class="w-8 h-8 opacity-60 mb-2"></i>
+              <p class="font-serif text-xl sm:text-2xl font-bold leading-snug">“Design is not merely visual; it is an uncompromising emotional standard.”</p>
+              <span class="block mt-3 text-xs font-extrabold uppercase tracking-widest text-brand-dark/80">— Viswajeet</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-yellow/15 text-brand-gold text-xs font-bold uppercase tracking-widest">
+            Philosophy &amp; Vision
+          </div>
+          
+          <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-brand-dark leading-tight">
+            Transforming modern imagery into <span class="italic font-normal text-brand-gold">iconic brand equity</span>.
+          </h2>
+          
+          <p class="text-brand-muted text-base sm:text-lg leading-relaxed">
+            At <strong>Viswajeet Studio</strong>, every advertisement, poster layout, and web canvas begins with a rigorous commitment to visual hierarchy and sensory delight. We reject the noise of generic templates to engineer custom artistic direction that leaves an indelible imprint on human perception.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4">
+            <div class="p-6 rounded-2xl bg-white border border-brand-border shadow-sm hover:border-brand-yellow hover:shadow-card-elevated transition-all duration-300">
+              <div class="w-11 h-11 rounded-xl bg-amber-50 text-brand-gold flex items-center justify-center mb-3">
+                <i data-lucide="eye" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-serif text-xl font-bold mb-1">Visual Distinction</h3>
+              <p class="text-xs text-brand-muted leading-relaxed">Tailored aesthetics crafted to pierce through digital saturation and establish immediate authority.</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white border border-brand-border shadow-sm hover:border-brand-yellow hover:shadow-card-elevated transition-all duration-300">
+              <div class="w-11 h-11 rounded-xl bg-amber-50 text-brand-gold flex items-center justify-center mb-3">
+                <i data-lucide="zap" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-serif text-xl font-bold mb-1">Commercial Impact</h3>
+              <p class="text-xs text-brand-muted leading-relaxed">Art direction engineered to capture scroll attention, drive engagement, and leave lasting brand resonance.</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white border border-brand-border shadow-sm hover:border-brand-yellow hover:shadow-card-elevated transition-all duration-300">
+              <div class="w-11 h-11 rounded-xl bg-amber-50 text-brand-gold flex items-center justify-center mb-3">
+                <i data-lucide="compass" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-serif text-xl font-bold mb-1">Cinematic Typographics</h3>
+              <p class="text-xs text-brand-muted leading-relaxed">Swiss grid discipline paired with custom editorial letterforms for unforgettable collector posters.</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white border border-brand-border shadow-sm hover:border-brand-yellow hover:shadow-card-elevated transition-all duration-300">
+              <div class="w-11 h-11 rounded-xl bg-amber-50 text-brand-gold flex items-center justify-center mb-3">
+                <i data-lucide="layers" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-serif text-xl font-bold mb-1">Kinetic UI/UX Architecture</h3>
+              <p class="text-xs text-brand-muted leading-relaxed">Digital web journeys animated at 60 frames per second with fluid micro-interactions and high conversion fidelity.</p>
+            </div>
+          </div>
+
+          <div class="pt-4 flex items-center gap-4">
+            <a href="#portfolio" class="inline-flex items-center gap-2 font-bold text-brand-dark hover:text-brand-gold transition-colors text-sm uppercase tracking-wider group">
+              <span>View Portfolio Catalog</span>
+              <i data-lucide="arrow-down-right" class="w-4 h-4 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="portfolio" class="py-24 bg-white border-t border-brand-border/60">
+      <div class="max-w-7xl mx-auto px-6 sm:px-12">
+        
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-8">
+          <div>
+            <span class="inline-block px-3.5 py-1 rounded-full bg-brand-yellow/15 text-brand-gold text-xs font-bold uppercase tracking-widest mb-3">
+              Studio Archive
+            </span>
+            <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-brand-dark">
+              Curated Portfolio
+            </h2>
+            <p class="text-brand-muted text-sm sm:text-base mt-2 max-w-xl">
+              Filter through our commercial advertising campaigns, collectible screenprint posters, and digital web flagships.
+            </p>
+          </div>
+
+          <!-- Redesigned Luxury Filter Tabs with Animated Sliding Pill Glider -->
+          <div class="relative filter-tab-bar flex items-center self-start lg:self-auto overflow-x-auto max-w-full no-scrollbar" id="portfolio-tabs-container">
+            <!-- Active Sliding Glider Background Element -->
+            <div id="filter-glider" class="filter-glider"></div>
+
+            <button class="filter-tab-btn is-active flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide text-white whitespace-nowrap focus:outline-none" data-category="all">
+              <span>All Works</span>
+              <span class="badge-count px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-brand-yellow text-brand-dark">12</span>
+            </button>
+            <button class="filter-tab-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide text-brand-muted hover:text-brand-dark whitespace-nowrap focus:outline-none" data-category="advertisement">
+              <span>Advertisements</span>
+              <span class="badge-count px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-black/5 text-brand-muted">4</span>
+            </button>
+            <button class="filter-tab-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide text-brand-muted hover:text-brand-dark whitespace-nowrap focus:outline-none" data-category="poster">
+              <span>Posters</span>
+              <span class="badge-count px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-black/5 text-brand-muted">4</span>
+            </button>
+            <button class="filter-tab-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide text-brand-muted hover:text-brand-dark whitespace-nowrap focus:outline-none" data-category="web">
+              <span>Web Designs</span>
+              <span class="badge-count px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-black/5 text-brand-muted">4</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Grid Items -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-grid">
+          
+          <!-- ITEM 1: Advertisement -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="advertisement" data-title="Lumière Haute Parfumerie" data-tag="Luxury Commercial Ad" data-desc="A national billboard and digital ad campaign highlighting rare botanicals with golden lighting and minimal typography." data-img="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1000&q=80" alt="Lumière Parfumerie" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Commercial Ad</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Lumière Haute Parfumerie</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Campaign visuals generating over 3.2M impressions across luxury retail displays.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-dark/85 backdrop-blur-md text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase border border-white/20">
+                Advertisement
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Lumière Haute Parfumerie</h5>
+                <p class="text-xs text-brand-muted">Art Direction &amp; Staging</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 2: Poster -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="poster" data-title="Metropolis Noir: Film Poster" data-tag="Cinematic Art Series" data-desc="Experimental typography poster exploring retro-futurism, architectural geometry, and raw shadow contrast." data-img="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80" alt="Poster Design" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Poster Collection</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Metropolis Noir</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Exhibited at the International Design Biennial and selected for collector prints.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-yellow text-brand-dark text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-sm">
+                Poster
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Metropolis Noir</h5>
+                <p class="text-xs text-brand-muted">Editorial Typography &amp; Visual Art</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 3: Web Design -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="web" data-title="Aura Watches Horology" data-tag="Luxury E-Commerce UI/UX" data-desc="Digital flagship website designed for high-end Swiss horology brand, featuring micro-interactions and interactive 3D dial customizer." data-img="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=80" alt="Web Design" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Web Experience</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Aura Watches Horology</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Elevated digital sales by 48% with custom interactive 360 timepiece configurator.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-dark/85 backdrop-blur-md text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase border border-white/20">
+                Web Design
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Aura Watches Horology</h5>
+                <p class="text-xs text-brand-muted">UI/UX Design &amp; Flagship Web</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 4: Advertisement -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="advertisement" data-title="Velocità Supercar Campaign" data-tag="Automotive Commercial" data-desc="High-octane print and digital advertising package developed for electric hypercar launch with futuristic lighting cues." data-img="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1000&q=80" alt="Advertisement" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Commercial Ad</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Velocità Supercar Campaign</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Sleek reflections, aerodynamic motion blur, and prestige magazine spreads.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-dark/85 backdrop-blur-md text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase border border-white/20">
+                Advertisement
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Velocità Supercar</h5>
+                <p class="text-xs text-brand-muted">Automotive Campaign &amp; Grading</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 5: Poster -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="poster" data-title="Solaris Jazz Festival" data-tag="Music & Cultural Poster" data-desc="Harmonic abstract gradient shapes and modern Swiss typography composition capturing jazz improvisation." data-img="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1000&q=80" alt="Poster" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Poster Design</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Solaris Jazz Festival</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Featured across outdoor cultural pylons and limited screenprint runs.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-yellow text-brand-dark text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-sm">
+                Poster
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Solaris Jazz Festival</h5>
+                <p class="text-xs text-brand-muted">Music Festival Identity &amp; Artwork</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 6: Web Design -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="web" data-title="Komorebi Architectural Studio" data-tag="Architectural Web Experience" data-desc="Minimalist portfolio website with dynamic canvas transitions and asymmetrical grid systems." data-img="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80" alt="Web Design" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Web Design</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Komorebi Architects</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Award-winning interaction architecture showcasing modern brutalist spaces.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-dark/85 backdrop-blur-md text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase border border-white/20">
+                Web Design
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Komorebi Architects</h5>
+                <p class="text-xs text-brand-muted">Spatial UI/UX &amp; Responsive Web</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 7: Advertisement -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="advertisement" data-title="Couture Vogue Editorial" data-tag="Fashion & Lifestyle Ads" data-desc="Stylized editorial advertisement for luxury apparel fashion house, blending natural sunlight with golden accessories." data-img="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80" alt="Fashion Ad" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Fashion Ad</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Couture Vogue</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Print and OOH editorial placement across Paris and Milan fashion seasons.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-dark/85 backdrop-blur-md text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase border border-white/20">
+                Advertisement
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Couture Vogue Paris</h5>
+                <p class="text-xs text-brand-muted">Fashion Direction &amp; Photography</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 8: Poster -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="poster" data-title="Bauhaus Geometry Revived" data-tag="Minimalist Art Poster" data-desc="Tribute to German modernist layout theory, featuring rigorous grid alignment, balance, and warm amber accents." data-img="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1000&q=80" alt="Bauhaus Poster" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Poster Design</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Bauhaus Geometry</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Screenprinted limited gallery collection celebrating century-old geometry.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-yellow text-brand-dark text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-sm">
+                Poster
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Bauhaus Modernism</h5>
+                <p class="text-xs text-brand-muted">Art Gallery Exhibition Prints</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 9: Web Design -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="web" data-title="Monolith FinTech Suite" data-tag="Fintech Web Application" data-desc="Futuristic finance dashboard crafted with dark-mode elegance, buttery smooth micro-charts, and clear typography." data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80" alt="FinTech Web" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Web Design</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Monolith FinTech</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">SaaS web platform for institutional investors handling $500M+ volume.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-dark/85 backdrop-blur-md text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase border border-white/20">
+                Web Design
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Monolith FinTech Suite</h5>
+                <p class="text-xs text-brand-muted">Dashboard Design &amp; UI Systems</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 10: Advertisement -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="advertisement" data-title="Artisan Botanicals Beverage" data-tag="Commercial Product Ad" data-desc="Crisp splash photography and warm sunny styling for a luxury craft beverage campaign." data-img="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1000&q=80" alt="Beverage Ad" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Product Ad</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Artisan Botanicals</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Multi-channel summer release ad resulting in sellout inventory within 72 hours.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-dark/85 backdrop-blur-md text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase border border-white/20">
+                Advertisement
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Artisan Botanicals</h5>
+                <p class="text-xs text-brand-muted">Product Campaign &amp; Commercial</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 11: Poster -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="poster" data-title="Cinema Paradiso Retrospective" data-tag="Film Festival Art" data-desc="Vintage cinematic poster featuring duo-tone grading, film grain texture, and classic serif titles." data-img="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=80" alt="Cinema Poster" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Film Poster</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Cinema Paradiso Series</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Commissioned key art for international film festival screening tour.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-yellow text-brand-dark text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-sm">
+                Poster
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Cinema Paradiso</h5>
+                <p class="text-xs text-brand-muted">Film Key Art &amp; Poster Typography</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- ITEM 12: Web Design -->
+          <div class="portfolio-card perspective-card group relative bg-brand-cream rounded-3xl overflow-hidden border border-brand-border/70 hover:shadow-card-elevated cursor-pointer" data-category="web" data-title="Velvet & Oak Interior Collective" data-tag="Interior Design UI/UX" data-desc="Editorial web storytelling with fluid parallax scrolling and high-fidelity room moodboards." data-img="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80">
+            <div class="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=80" alt="Interior Design Web" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <span class="text-xs uppercase font-bold tracking-widest text-brand-yellow">Web Experience</span>
+                <h4 class="font-serif text-2xl font-bold text-white mt-1">Velvet &amp; Oak Collective</h4>
+                <p class="text-white/80 text-xs mt-2 line-clamp-2">Elevating architectural portfolios into fluid sensory web journeys.</p>
+                <div class="mt-4 flex items-center gap-2 text-white text-xs font-bold tracking-wider">
+                  <span>View Project Details</span>
+                  <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-yellow"></i>
+                </div>
+              </div>
+              <span class="absolute top-4 left-4 bg-brand-dark/85 backdrop-blur-md text-white text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase border border-white/20">
+                Web Design
+              </span>
+            </div>
+            <div class="p-5 flex items-center justify-between bg-white border-t border-brand-border/40">
+              <div>
+                <h5 class="font-bold text-brand-dark text-base">Velvet &amp; Oak Collective</h5>
+                <p class="text-xs text-brand-muted">Editorial Responsive Web Design</p>
+              </div>
+              <button class="w-9 h-9 rounded-full bg-brand-cream border border-brand-border group-hover:bg-brand-yellow group-hover:border-brand-yellow text-brand-dark flex items-center justify-center transition-colors">
+                <i data-lucide="maximize-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="showcase" class="py-24 sm:py-32 bg-[#0B0F19] text-white relative overflow-hidden">
+      <!-- Ambient Glows -->
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-yellow/15 rounded-full blur-[130px] pointer-events-none"></div>
+      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-gold/15 rounded-full blur-[130px] pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-6 sm:px-12 relative z-10">
+        
+        <!-- Showcase Header (Clean minimal styling) -->
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-6">
+          <div>
+            <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+              Featured Visual Gallery
+            </h2>
+            <p class="text-white/60 text-xs sm:text-sm mt-1.5 max-w-lg">
+              Pure visual impressions rendered in classic 4:5 portrait scale. Touch or drag to navigate.
+            </p>
+          </div>
+
+          <!-- Controls -->
+          <div class="flex items-center gap-3 self-start sm:self-auto">
+            <button id="showcase-prev" class="w-11 h-11 rounded-full bg-white/10 hover:bg-brand-yellow hover:text-brand-dark text-white border border-white/15 flex items-center justify-center transition-all duration-300 active:scale-95 shadow-lg" aria-label="Previous Slide">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </button>
+            <button id="showcase-next" class="w-11 h-11 rounded-full bg-white/10 hover:bg-brand-yellow hover:text-brand-dark text-white border border-white/15 flex items-center justify-center transition-all duration-300 active:scale-95 shadow-lg" aria-label="Next Slide">
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Slider Stage Container with 4:5 Ratio Cards -->
+        <div class="relative bg-white/[0.02] border border-white/10 rounded-[36px] sm:rounded-[44px] p-4 sm:p-7 backdrop-blur-2xl shadow-2xl" id="showcase-card">
+          
+          <!-- Auto-Play Progress Bar Indicator -->
+          <div class="w-full bg-white/10 h-1 rounded-full mb-6 overflow-hidden">
+            <div id="showcase-progress" class="bg-brand-yellow h-full w-0 transition-all duration-100 ease-linear"></div>
+          </div>
+
+          <!-- Slider Viewport (Displays 4:5 Cards smoothly) -->
+          <div class="overflow-hidden relative select-none cursor-grab active:cursor-grabbing rounded-2xl sm:rounded-3xl" id="showcase-viewport">
+            <div id="showcase-track" class="slider-track flex gap-4 sm:gap-6">
+              
+              <!-- SLIDE 1 (4:5 Ratio) -->
+              <div class="showcase-slide flex-shrink-0 w-[84%] sm:w-[48%] lg:w-[31.5%] group">
+                <div class="relative aspect-[4/5] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#151C28] shadow-2xl border border-white/10 transition-transform duration-500 group-hover:scale-[1.02]">
+                  <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=1000&q=85" alt="Showcase Visual 1" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-40 group-hover:opacity-10 transition-opacity pointer-events-none"></div>
+                </div>
+              </div>
+
+              <!-- SLIDE 2 (4:5 Ratio) -->
+              <div class="showcase-slide flex-shrink-0 w-[84%] sm:w-[48%] lg:w-[31.5%] group">
+                <div class="relative aspect-[4/5] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#151C28] shadow-2xl border border-white/10 transition-transform duration-500 group-hover:scale-[1.02]">
+                  <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=85" alt="Showcase Visual 2" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-40 group-hover:opacity-10 transition-opacity pointer-events-none"></div>
+                </div>
+              </div>
+
+              <!-- SLIDE 3 (4:5 Ratio) -->
+              <div class="showcase-slide flex-shrink-0 w-[84%] sm:w-[48%] lg:w-[31.5%] group">
+                <div class="relative aspect-[4/5] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#151C28] shadow-2xl border border-white/10 transition-transform duration-500 group-hover:scale-[1.02]">
+                  <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1000&q=85" alt="Showcase Visual 3" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-40 group-hover:opacity-10 transition-opacity pointer-events-none"></div>
+                </div>
+              </div>
+
+              <!-- SLIDE 4 (4:5 Ratio) -->
+              <div class="showcase-slide flex-shrink-0 w-[84%] sm:w-[48%] lg:w-[31.5%] group">
+                <div class="relative aspect-[4/5] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#151C28] shadow-2xl border border-white/10 transition-transform duration-500 group-hover:scale-[1.02]">
+                  <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1000&q=85" alt="Showcase Visual 4" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-40 group-hover:opacity-10 transition-opacity pointer-events-none"></div>
+                </div>
+              </div>
+
+              <!-- SLIDE 5 (4:5 Ratio) -->
+              <div class="showcase-slide flex-shrink-0 w-[84%] sm:w-[48%] lg:w-[31.5%] group">
+                <div class="relative aspect-[4/5] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#151C28] shadow-2xl border border-white/10 transition-transform duration-500 group-hover:scale-[1.02]">
+                  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85" alt="Showcase Visual 5" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-40 group-hover:opacity-10 transition-opacity pointer-events-none"></div>
+                </div>
+              </div>
+
+              <!-- SLIDE 6 (4:5 Ratio) -->
+              <div class="showcase-slide flex-shrink-0 w-[84%] sm:w-[48%] lg:w-[31.5%] group">
+                <div class="relative aspect-[4/5] w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#151C28] shadow-2xl border border-white/10 transition-transform duration-500 group-hover:scale-[1.02]">
+                  <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1000&q=85" alt="Showcase Visual 6" class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-40 group-hover:opacity-10 transition-opacity pointer-events-none"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Bottom Slide Pagination Dots -->
+          <div class="flex items-center justify-center gap-2 mt-6" id="showcase-dots">
+            <button class="showcase-dot w-9 h-2 rounded-full bg-brand-yellow transition-all duration-300" data-slide="0" aria-label="Go to slide 1"></button>
+            <button class="showcase-dot w-2 h-2 rounded-full bg-white/25 hover:bg-brand-yellow/60 transition-all duration-300" data-slide="1" aria-label="Go to slide 2"></button>
+            <button class="showcase-dot w-2 h-2 rounded-full bg-white/25 hover:bg-brand-yellow/60 transition-all duration-300" data-slide="2" aria-label="Go to slide 3"></button>
+            <button class="showcase-dot w-2 h-2 rounded-full bg-white/25 hover:bg-brand-yellow/60 transition-all duration-300" data-slide="3" aria-label="Go to slide 4"></button>
+            <button class="showcase-dot w-2 h-2 rounded-full bg-white/25 hover:bg-brand-yellow/60 transition-all duration-300" data-slide="4" aria-label="Go to slide 5"></button>
+            <button class="showcase-dot w-2 h-2 rounded-full bg-white/25 hover:bg-brand-yellow/60 transition-all duration-300" data-slide="5" aria-label="Go to slide 6"></button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="contact" class="py-24 sm:py-32 px-6 sm:px-12 max-w-7xl mx-auto border-t border-brand-border/70">
+      <div class="max-w-4xl mx-auto text-center space-y-4 mb-16">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-brand-yellow/15 text-brand-gold text-xs font-bold uppercase tracking-widest">
+          Direct Inquiries
+        </span>
+        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-brand-dark tracking-tight">
+          Let’s create your next visual masterpiece.
+        </h2>
+        <p class="text-brand-muted text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          Reach out directly to Viswajeet Studio for creative commissions, art direction inquiries, and poster design collaborations.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <!-- Email Item with Copy -->
+        <div class="p-7 sm:p-8 rounded-3xl bg-white border border-brand-border hover:border-brand-yellow transition-all duration-300 shadow-sm hover:shadow-card-elevated flex flex-col justify-between group">
+          <div class="flex items-start gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-amber-50 text-brand-gold flex items-center justify-center group-hover:scale-110 group-hover:bg-brand-yellow group-hover:text-brand-dark transition-all duration-300 flex-shrink-0 shadow-sm">
+              <i data-lucide="mail" class="w-7 h-7"></i>
+            </div>
+            <div class="space-y-1">
+              <span class="text-[11px] uppercase font-bold text-brand-muted tracking-wider block">Official Studio Email</span>
+              <a href="mailto:viswajeet.studio@gmail.com" class="text-base sm:text-lg font-bold text-brand-dark hover:text-brand-gold transition-colors break-all">
+                viswajeet.studio@gmail.com
+              </a>
+              <p class="text-xs text-brand-muted pt-1">Direct inquiries &amp; project briefs. Response within 24 hours.</p>
+            </div>
+          </div>
+          <div class="pt-6 mt-6 border-t border-gray-100 flex items-center justify-between">
+            <a href="mailto:viswajeet.studio@gmail.com" class="text-xs font-bold uppercase tracking-wider text-brand-dark hover:text-brand-gold flex items-center gap-1.5 transition-colors">
+              <span>Compose Email</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </a>
+            <button onclick="copyEmailToClipboard()" class="px-4 py-2 rounded-xl bg-brand-cream hover:bg-brand-yellow hover:text-brand-dark text-xs font-bold border border-brand-border transition-all active:scale-95 shadow-sm">
+              Copy Address
+            </button>
+          </div>
+        </div>
+
+        <!-- Instagram Item -->
+        <div class="p-7 sm:p-8 rounded-3xl bg-white border border-brand-border hover:border-brand-yellow transition-all duration-300 shadow-sm hover:shadow-card-elevated flex flex-col justify-between group">
+          <div class="flex items-start gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-amber-50 text-brand-gold flex items-center justify-center group-hover:scale-110 group-hover:bg-brand-yellow group-hover:text-brand-dark transition-all duration-300 flex-shrink-0 shadow-sm">
+              <i data-lucide="instagram" class="w-7 h-7"></i>
+            </div>
+            <div class="space-y-1">
+              <span class="text-[11px] uppercase font-bold text-brand-muted tracking-wider block">Instagram Presence</span>
+              <span class="text-base sm:text-lg font-bold text-brand-dark block">
+                @viswajeet.studio
+              </span>
+              <p class="text-xs text-brand-muted pt-1">Behind-the-scenes, recent art drops, and visual experiments.</p>
+            </div>
+          </div>
+          <div class="pt-6 mt-6 border-t border-gray-100 flex items-center justify-between">
+            <a href="https://www.instagram.com/viswajeet.studio" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-wider text-brand-dark hover:text-brand-gold flex items-center gap-1.5 transition-colors">
+              <span>View Feed &amp; DM</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+            <span class="text-[11px] font-semibold text-brand-muted bg-brand-cream px-3 py-1.5 rounded-lg border border-brand-border/70">
+              Active Daily
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Availability Banner -->
+      <div class="mt-8 max-w-5xl mx-auto p-5 rounded-2xl bg-amber-50/80 border border-brand-yellow/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div class="flex items-center gap-3.5">
+          <span class="relative flex h-3 w-3 flex-shrink-0">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-yellow opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-gold"></span>
+          </span>
+          <p class="text-xs sm:text-sm text-brand-dark font-medium">Currently booking studio creative commissions, posters, and web branding sprints.</p>
+        </div>
+        <a href="mailto:viswajeet.studio@gmail.com?subject=Studio%20Commission%20Inquiry" class="px-5 py-2.5 rounded-full bg-brand-dark hover:bg-brand-yellow hover:text-brand-dark text-white text-xs font-bold tracking-wider uppercase transition-all duration-300 flex-shrink-0 active:scale-95 shadow-sm">
+          Book Viswajeet
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="project-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 transition-all duration-300 opacity-0">
+    <div class="bg-white max-w-4xl w-full rounded-3xl overflow-hidden shadow-2xl relative border border-brand-yellow/30 max-h-[90vh] flex flex-col md:flex-row transform scale-95 transition-transform duration-300" id="modal-container">
+      
+      <button onclick="closeModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-brand-dark flex items-center justify-center shadow-lg transition-transform hover:rotate-90 active:scale-90" aria-label="Close dialog">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="md:w-3/5 bg-black flex items-center justify-center overflow-hidden">
+        <img id="modal-img" src="" alt="Project Display" class="w-full h-full object-cover max-h-[50vh] md:max-h-[85vh]">
+      </div>
+
+      <div class="md:w-2/5 p-6 sm:p-8 flex flex-col justify-between bg-white overflow-y-auto">
+        <div>
+          <span id="modal-tag" class="text-xs uppercase font-bold tracking-widest text-brand-gold">Category</span>
+          <h3 id="modal-title" class="font-serif text-3xl font-bold text-brand-dark mt-1 mb-4">Project Title</h3>
+          <p id="modal-desc" class="text-brand-muted text-sm leading-relaxed mb-6">Detailed description will load here dynamically.</p>
+          
+          <div class="p-4 rounded-2xl bg-brand-cream border border-brand-border space-y-2">
+            <div class="text-[11px] font-bold text-brand-dark uppercase tracking-wider">Creative Attributes:</div>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-[10px] px-2.5 py-1 bg-white border border-gray-200 rounded-full font-semibold">Art Direction</span>
+              <span class="text-[10px] px-2.5 py-1 bg-white border border-gray-200 rounded-full font-semibold">300 DPI Editorial</span>
+              <span class="text-[10px] px-2.5 py-1 bg-white border border-gray-200 rounded-full font-semibold">Bespoke Vector</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-gray-100 flex items-center justify-between">
+          <a href="mailto:viswajeet.studio@gmail.com?subject=Inquiry%20regarding%20project" class="text-xs font-bold uppercase tracking-wider text-brand-dark hover:text-brand-gold flex items-center gap-1.5 transition-colors">
+            <span>Inquire About Similar Work</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="bg-brand-dark text-white pt-16 pb-12 border-t border-brand-yellow/20">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-12 border-b border-white/10">
+        
+        <div class="space-y-2">
+          <div class="flex items-center gap-3">
+            <span class="w-9 h-9 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center font-serif text-lg font-bold">
+              V
+            </span>
+            <span class="font-serif text-2xl font-bold tracking-tight">Viswajeet Studio</span>
+          </div>
+          <p class="text-xs text-brand-muted max-w-sm">
+            High-fashion visual identity, creative advertising directions, bespoke posters, and luxury web architecture.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-6 text-sm text-white/80">
+          <a href="mailto:viswajeet.studio@gmail.com" class="hover:text-brand-yellow transition-colors flex items-center gap-2">
+            <i data-lucide="mail" class="w-4 h-4 text-brand-yellow"></i>
+            <span>viswajeet.studio@gmail.com</span>
+          </a>
+          <a href="https://www.instagram.com/viswajeet.studio" target="_blank" rel="noopener noreferrer" class="hover:text-brand-yellow transition-colors flex items-center gap-2">
+            <i data-lucide="instagram" class="w-4 h-4 text-brand-yellow"></i>
+            <span>@viswajeet.studio</span>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-brand-muted gap-4">
+        <div>
+          © <span id="current-year"></span> Viswajeet Studio. All visual assets and art direction rights reserved.
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="#hero" class="hover:text-brand-yellow transition-colors">Back to top ↑</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      initNavInteractions();
+      initFilterGlider();
+      initShowcaseSlider();
+      initScrollInteractions();
+    });
+
+    // Custom Cursor Dot and Outline Tracking
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+      
+      if (cursorDot && cursorOutline) {
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+        
+        cursorOutline.animate({
+          left: `${posX}px`,
+          top: `${posY}px`
+        }, { duration: 350, fill: "forwards" });
+      }
+    });
+
+    // Mobile Menu Drawer
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    mobileToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Top Navigation Kinetic Scroll Spy and Click State
+    function initNavInteractions() {
+      const navLinks = document.querySelectorAll('#desktop-nav .nav-link');
+      const sections = ['hero', 'philosophy', 'portfolio', 'showcase', 'contact'].map(id => document.getElementById(id));
+
+      window.addEventListener('scroll', () => {
+        let currentSectionId = '';
+        const scrollPosition = window.scrollY + 200;
+
+        sections.forEach(section => {
+          if (section) {
+            const top = section.offsetTop;
+            const height = section.offsetHeight;
+            if (scrollPosition >= top && scrollPosition < top + height) {
+              currentSectionId = section.getAttribute('id');
+            }
+          }
+        });
+
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href').replace('#', '');
+          if (href === currentSectionId) {
+            link.classList.add('active', 'text-brand-dark');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }, { passive: true });
+    }
+
+    // Animated Sliding Glider Filter Tabs
+    function initFilterGlider() {
+      const glider = document.getElementById('filter-glider');
+      const buttons = document.querySelectorAll('.filter-tab-btn');
+      const container = document.getElementById('portfolio-tabs-container');
+      const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+      if (!glider || !buttons.length || !container) return;
+
+      function updateGliderPosition(activeBtn) {
+        const btnRect = activeBtn.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const left = btnRect.left - containerRect.left + container.scrollLeft;
+
+        glider.style.width = `${btnRect.width}px`;
+        glider.style.transform = `translateX(${left - 6}px)`;
+      }
+
+      // Initial alignment on active tab
+      const initialActive = document.querySelector('.filter-tab-btn.is-active') || buttons[0];
+      updateGliderPosition(initialActive);
+
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Tab button states
+          buttons.forEach(btn => {
+            btn.classList.remove('is-active', 'text-white');
+            btn.classList.add('text-brand-muted');
+            const countBadge = btn.querySelector('.badge-count');
+            if (countBadge) {
+              countBadge.classList.remove('bg-brand-yellow', 'text-brand-dark');
+              countBadge.classList.add('bg-black/5', 'text-brand-muted');
+            }
+          });
+
+          button.classList.add('is-active', 'text-white');
+          button.classList.remove('text-brand-muted');
+          const countBadge = button.querySelector('.badge-count');
+          if (countBadge) {
+            countBadge.classList.add('bg-brand-yellow', 'text-brand-dark');
+            countBadge.classList.remove('bg-black/5', 'text-brand-muted');
+          }
+
+          updateGliderPosition(button);
+
+          // Filtering Cards
+          const category = button.getAttribute('data-category');
+
+          portfolioCards.forEach(card => {
+            const cardCat = card.getAttribute('data-category');
+            if (category === 'all' || cardCat === category) {
+              card.classList.remove('hidden');
+              card.style.opacity = '0';
+              card.style.transform = 'scale(0.96)';
+              setTimeout(() => {
+                card.style.transition = 'all 0.4s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+              }, 30);
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        const activeBtn = document.querySelector('.filter-tab-btn.is-active');
+        if (activeBtn) updateGliderPosition(activeBtn);
+      });
+    }
+
+    // 3D Card Hover Tilt
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+    portfolioCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * -5;
+        const rotateY = ((x - centerX) / centerX) * 5;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      });
+
+      card.addEventListener('click', () => {
+        openModal({
+          title: card.getAttribute('data-title'),
+          tag: card.getAttribute('data-tag'),
+          desc: card.getAttribute('data-desc'),
+          img: card.getAttribute('data-img')
+        });
+      });
+    });
+
+    // Lightbox Modal System
+    const modal = document.getElementById('project-modal');
+    const modalContainer = document.getElementById('modal-container');
+    const modalImg = document.getElementById('modal-img');
+    const modalTitle = document.getElementById('modal-title');
+    const modalTag = document.getElementById('modal-tag');
+    const modalDesc = document.getElementById('modal-desc');
+
+    function openModal(data) {
+      modalImg.src = data.img;
+      modalTitle.textContent = data.title;
+      modalTag.textContent = data.tag;
+      modalDesc.textContent = data.desc;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modalContainer.classList.remove('scale-100');
+        modalContainer.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeModal() {
+      modal.classList.add('opacity-0');
+      modalContainer.classList.remove('scale-100');
+      modalContainer.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 300);
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Copy Email to Clipboard
+    function copyEmailToClipboard() {
+      const email = 'viswajeet.studio@gmail.com';
+      const tempInput = document.createElement('input');
+      tempInput.value = email;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+
+      showToast('Copied viswajeet.studio@gmail.com to clipboard');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = message;
+
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3200);
+    }
+
+    // Scroll to Top & Header Background Control
+    function initScrollInteractions() {
+      const btt = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          btt.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+          btt.classList.add('opacity-100', 'translate-y-0');
+        } else {
+          btt.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+          btt.classList.remove('opacity-100', 'translate-y-0');
+        }
+      });
+
+      btt.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // 4:5 ASPECT RATIO SHOWCASE SLIDER
+    function initShowcaseSlider() {
+      const track = document.getElementById('showcase-track');
+      const slides = document.querySelectorAll('.showcase-slide');
+      const prevBtn = document.getElementById('showcase-prev');
+      const nextBtn = document.getElementById('showcase-next');
+      const dots = document.querySelectorAll('.showcase-dot');
+      const viewport = document.getElementById('showcase-viewport');
+      const progressBar = document.getElementById('showcase-progress');
+      const card = document.getElementById('showcase-card');
+
+      if (!track || !slides.length || !prevBtn || !nextBtn) return;
+
+      const totalSlides = slides.length;
+      let currentIndex = 0;
+      let startX = 0;
+      let isDragging = false;
+      let progress = 0;
+      const slideDuration = 5500;
+      const stepInterval = 50;
+      let intervalTimer = null;
+      let isHovered = false;
+
+      function getSlideWidth() {
+        const slide = slides[0];
+        const computedStyle = window.getComputedStyle(track);
+        const gap = parseFloat(computedStyle.columnGap || computedStyle.gap || 16);
+        return slide.getBoundingClientRect().width + gap;
+      }
+
+      function updateSlider(index) {
+        currentIndex = (index + totalSlides) % totalSlides;
+        const slideWidth = getSlideWidth();
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.remove('w-2', 'bg-white/25');
+            dot.classList.add('w-9', 'bg-brand-yellow');
+          } else {
+            dot.classList.remove('w-9', 'bg-brand-yellow');
+            dot.classList.add('w-2', 'bg-white/25');
+          }
+        });
+
+        progress = 0;
+        if (progressBar) progressBar.style.width = '0%';
+      }
+
+      function nextSlide() {
+        updateSlider(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        updateSlider(currentIndex - 1);
+      }
+
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        prevSlide();
+      });
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        nextSlide();
+      });
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const slideIdx = parseInt(dot.getAttribute('data-slide'), 10);
+          updateSlider(slideIdx);
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        updateSlider(currentIndex);
+      });
+
+      // Touch & Drag Handling
+      viewport.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        const diffX = e.changedTouches[0].clientX - startX;
+        if (Math.abs(diffX) > 40) {
+          if (diffX < 0) nextSlide();
+          else prevSlide();
+        }
+        isDragging = false;
+      });
+
+      viewport.addEventListener('mousedown', (e) => {
+        startX = e.clientX;
+        isDragging = true;
+      });
+
+      window.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        const diffX = e.clientX - startX;
+        if (Math.abs(diffX) > 40) {
+          if (diffX < 0) nextSlide();
+          else prevSlide();
+        }
+        isDragging = false;
+      });
+
+      card.addEventListener('mouseenter', () => { isHovered = true; });
+      card.addEventListener('mouseleave', () => { isHovered = false; });
+
+      intervalTimer = setInterval(() => {
+        if (!isHovered) {
+          progress += (stepInterval / slideDuration) * 100;
+          if (progressBar) progressBar.style.width = `${Math.min(progress, 100)}%`;
+
+          if (progress >= 100) {
+            nextSlide();
+          }
+        }
+      }, stepInterval);
+
+      updateSlider(0);
+    }
+  </script>
+</body>
+</html>
