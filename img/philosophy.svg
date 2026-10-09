@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 650" width="100%" height="100%">
+  <defs>
+    <radialGradient id="gradPhilArt" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F5B82E" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#090C14" stop-opacity="1"/>
+    </radialGradient>
+  </defs>
+  <rect width="500" height="650" fill="#090C14"/>
+  <circle cx="250" cy="325" r="200" stroke="#F5B82E" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"/>
+  <circle cx="250" cy="325" r="150" fill="url(#gradPhilArt)"/>
+  <line x1="50" y1="325" x2="450" y2="325" stroke="#F5B82E" stroke-width="1" opacity="0.3"/>
+  <line x1="250" y1="50" x2="250" y2="600" stroke="#F5B82E" stroke-width="1" opacity="0.3"/>
+  <circle cx="250" cy="325" r="6" fill="#F5B82E"/>
+  <text x="250" y="305" font-family="'Cormorant Garamond', Georgia, serif" font-size="36" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="6">UNCOMPROMISING</text>
+  <text x="250" y="345" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="800" fill="#F5B82E" text-anchor="middle" letter-spacing="8">VISUAL HIERARCHY</text>
+  <text x="250" y="580" font-family="'JetBrains Mono', monospace" font-size="10" fill="#64748B" text-anchor="middle" letter-spacing="3">COORD 28°36'N • 77°12'E // STUDIO EDITION</text>
+</svg>
