@@ -120,7 +120,7 @@ function initMagneticElements() {
    3. 3D CARD PERSPECTIVE TILT WITH DYNAMIC SPECULAR LIGHTING (GLARE)
    ========================================================================== */
 function initCardTiltAndGlare() {
-  const cards = document.querySelectorAll('.portfolio-card, .portrait-card');
+  const cards = document.querySelectorAll('.portfolio-card, .portrait-card, .creative-service-card');
   cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -130,11 +130,11 @@ function initCardTiltAndGlare() {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       
-      // Calculate rotation limits (-6 deg to 6 deg)
-      const rotateX = ((y - centerY) / centerY) * -6;
-      const rotateY = ((x - centerX) / centerX) * 6;
+      // Calculate rotation limits (-5 deg to 5 deg for subtle luxury response)
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
 
-      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px)`;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-8px)`;
       
       // Dynamic glare specular lighting coordinates
       const pctX = (x / rect.width) * 100;
@@ -424,9 +424,23 @@ function initInquiryModal() {
   const closeBtn = document.getElementById('inquiry-close');
   if (!modal) return;
 
-  function openInquiry() {
+  function openInquiry(serviceName) {
     modal.classList.add('is-active');
     document.body.style.overflow = 'hidden';
+
+    if (typeof serviceName === 'string' && serviceName) {
+      const notesEl = document.getElementById('inquiry-notes');
+      if (notesEl) {
+        notesEl.value = `Inquiring specifically for: ${serviceName}. Looking to discuss project scope, artistic direction, and timeline.`;
+      }
+      // Also try to select matching radio if present
+      const radios = modal.querySelectorAll('input[name="service"]');
+      radios.forEach(r => {
+        if (r.value.toLowerCase().includes(serviceName.toLowerCase())) {
+          r.checked = true;
+        }
+      });
+    }
   }
 
   function closeInquiry() {
@@ -434,7 +448,12 @@ function initInquiryModal() {
     document.body.style.overflow = '';
   }
 
-  openBtns.forEach(btn => btn.addEventListener('click', openInquiry));
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const preselect = btn.dataset.preselect || btn.closest('.creative-service-card')?.dataset.service;
+      openInquiry(preselect);
+    });
+  });
   if (closeBtn) closeBtn.addEventListener('click', closeInquiry);
 
   modal.addEventListener('click', (e) => {
