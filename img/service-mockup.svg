@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 150" fill="none">
+  <defs>
+    <radialGradient id="aura3" cx="60%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#F5B82E" stop-opacity="0.5"/>
+      <stop offset="70%" stop-color="#F5B82E" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#F5B82E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bagGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E232E"/>
+      <stop offset="40%" stop-color="#141822"/>
+      <stop offset="100%" stop-color="#0A0C12"/>
+    </linearGradient>
+    <linearGradient id="cupGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F5F2EB"/>
+      <stop offset="100%" stop-color="#DDD8CB"/>
+    </linearGradient>
+    <filter id="shadow3" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="2" dy="10" stdDeviation="10" flood-color="#0B0F19" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Gold Glow -->
+  <circle cx="120" cy="72" r="56" fill="url(#aura3)"/>
+
+  <!-- Sparkles -->
+  <path d="M72 48 L73.5 52 L77.5 53.5 L73.5 55 L72 59 L70.5 55 L66.5 53.5 L70.5 52 Z" fill="#F5B82E" opacity="0.85"/>
+  <path d="M164 45 L165 48 L168 49 L165 50 L164 53 L163 50 L160 49 L163 48 Z" fill="#F5B82E" opacity="0.7"/>
+
+  <!-- Floor Cast Shadows -->
+  <ellipse cx="140" cy="126" rx="26" ry="6" fill="#0B0F19" opacity="0.2"/>
+  <ellipse cx="98" cy="125" rx="16" ry="5" fill="#0B0F19" opacity="0.25"/>
+
+  <!-- Luxury Black Shopping Bag (Right/Back) -->
+  <g filter="url(#shadow3)">
+    <!-- Bag Handles -->
+    <path d="M128 32 C128 20, 148 20, 148 32" stroke="#48546C" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    
+    <!-- Bag Body in 3D Perspective -->
+    <polygon points="120,34 158,30 166,122 122,125" fill="url(#bagGrad)"/>
+    <!-- Fold Accents -->
+    <path d="M158 30 L166 122 L158 124 L152 31 Z" fill="#07090D" opacity="0.5"/>
+
+    <!-- Gold Brand Stamp -->
+    <text x="141" y="78" font-family="'Plus Jakarta Sans', sans-serif" font-size="5" font-weight="800" fill="#F5B82E" letter-spacing="1.2" text-anchor="middle">YOUR</text>
+    <text x="141" y="85" font-family="'Plus Jakarta Sans', sans-serif" font-size="5" font-weight="800" fill="#F5B82E" letter-spacing="1.2" text-anchor="middle">BRAND</text>
+    <rect x="135" y="89" width="12" height="1" fill="#F5B82E" opacity="0.7"/>
+  </g>
+
+  <!-- Luxury Ceramic Coffee Cup (Front/Left) -->
+  <g filter="url(#shadow3)">
+    <!-- Cup Lid -->
+    <ellipse cx="98" cy="54" rx="17" ry="4.5" fill="#1C212D"/>
+    <rect x="83" y="52" width="30" height="3" rx="1.5" fill="#141822"/>
+
+    <!-- Cup Body (Tapered Cylinder) -->
+    <path d="M84 55 L88 118 C88 122, 108 122, 108 118 L112 55 Z" fill="url(#cupGrad)"/>
+
+    <!-- Cup Sleeve / Brand Wrap -->
+    <path d="M85.5 74 L87.5 102 C87.5 104, 108.5 104, 108.5 102 L110.5 74 Z" fill="#151A24"/>
+
+    <!-- Text on Cup Sleeve -->
+    <text x="98" y="87" font-family="'Plus Jakarta Sans', sans-serif" font-size="4" font-weight="800" fill="#F5B82E" letter-spacing="0.8" text-anchor="middle">YOUR</text>
+    <text x="98" y="93" font-family="'Plus Jakarta Sans', sans-serif" font-size="4" font-weight="800" fill="#F5B82E" letter-spacing="0.8" text-anchor="middle">BRAND</text>
+  </g>
+</svg>
